@@ -1,0 +1,91 @@
+\documentclass[usenames, dvipsnames ]{article}
+\usepackage{amsmath, amssymb, wasysym, pgfplots, tikz, graphicx, color, bbm, cmbright, mathtools}
+\usepackage[margin=0.45in]{geometry}
+
+\usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
+	decorations.pathreplacing,decorations.pathmorphing,shapes,%
+	matrix,shapes.symbols, positioning,fit,calc, angles, quotes, patterns,%
+	decorations.text}
+
+\usetikzlibrary{external}
+\tikzexternalize[]
+
+\newcommand{\includetikz}[1]{%
+	\tikzsetnextfilename{#1}%
+	\input{#1.tex}%
+}
+
+\begin{document}
+	
+\section{Visual Perception}
+
+\begin{figure}[h!]
+	\centering
+	\includetikz{tikz/camera_geometry}
+	\caption{Camera geometry (1). Focus point can be located both in front or beyond the camera.}
+	\vspace{10pt}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includetikz{tikz/camera_model_1}
+	\caption{Camera Model - Step 1: World to Camera}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includetikz{tikz/camera_model_2}
+	\caption{Camera Model - Step 2: Projection onto the image plane.}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includetikz{tikz/camera_model_3}
+	\caption{Camera Model - Step 3: Lens Distortion.}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includetikz{tikz/camera_model_distortion}
+	\caption{Camera Model - Step 3: Lens Distortion. $dr$ - radial distortion. Distortion effect can be negative (towards the center) and positive (outwards).}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includetikz{tikz/camera_model_4}
+	\caption{Camera Model - Step 4: Camera to image.}
+\end{figure}
+
+\clearpage
+\section{Faugeras-Toscani}
+
+\begin{figure}[h!]
+	\centering
+	\includetikz{tikz/faugeras_toscani_1}
+	\caption{Faugeras-Roscani Method Geometry 1}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includetikz{tikz/camera_intrinsic}
+	\caption{Intrinsic parameters - ideal projection.}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includetikz{tikz/faugeras_toscani_2}
+	\caption{Faugeras-Roscani Method Geometry 2}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includetikz{tikz/faugeras_toscani_3}
+	\caption{Faugeras-Roscani Method Geometry 3}
+\end{figure}
+
+
+\end{document}
+
+
+
+

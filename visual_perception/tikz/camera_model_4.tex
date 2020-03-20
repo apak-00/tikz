@@ -1,0 +1,55 @@
+\begin{tikzpicture}[scale=0.75, every node/.style={scale=0.75}]
+
+\coordinate (ic) at (3,-3);
+\coordinate (io) at (0,0);
+\coordinate (fp1) at (-2,-6);
+\coordinate (pu) at (4,-4); 
+\coordinate (pw) at (7, -3); %+(3,1)
+\coordinate (ic1) at ($(ic) - (0, 2/3)$);
+\coordinate (ic2) at ($(ic) + (1,-1/3)$);
+
+\coordinate (ow) at (0.5,0.5);
+\coordinate (owx) at ($(ow) + (0.5,1)$);
+\coordinate (owy) at ($(ow) + (-0.5,0.75)$);
+\coordinate (owz) at ($(ow) + (1,0.5)$);
+
+% World coordinate frame
+\draw[gray,->] (ow) -- (owx) node[above, black]{$x_w$};
+\draw[gray,->] (ow) -- (owy) node[above, black]{$y_w$};
+\draw[gray,->] (ow) -- (owz) node[above, black]{$z_w$};
+
+% Image coordinate frame
+\draw[thick, ->] (ic) node[right]{$O_R \, (u_0, v_0)$} -- ($(ic) + (0,2.5)$) node[above]{$Y_R$};
+\draw[thick, ->] (ic) -- ($(ic) + (-3.6,1.2)$) node[left]{$Y_R$};
+
+\draw[dotted, lightgray] (3,-1) -- (3,-5);
+\draw[dotted, lightgray] (0,-2) -- (6,-4);
+
+\draw[dotted] (0,-2.666) -- (4,-4);
+\draw[dotted] (4, -1.333) -- (4,-4);
+\draw[fill=black] (pu) circle(1pt) node[below]{$P_u$};
+\draw[fill=black] (pw) circle(1pt) node[below]{$P_w$};
+
+\draw[gray] (io) -- (6,-2) node[pos=0.75,above, sloped, black]{\small{Image Plane}} -- (6,-6) -- (0,-4) -- (io);
+\draw[thick, ->] (io) node[above]{$O_I$} -- (2,-0.6666) node[above]{$X_I$};
+\draw[thick, ->] (io) -- (0,-1.5) node[left]{$Y_I$};
+
+% Focal Point
+\draw[fill=black](fp1) circle(1pt) node[below]{\shortstack{Focal\\Point}} (ic) circle(1pt);
+\draw[lightgray] (fp1) -- (pu) -- (pw) node[pos=0.5, above, black]{$l_w$};
+
+\draw[lightgray] (fp1) -- (ic) node[pos=0.6, above, black]{$f$};
+
+\draw[thick, ->] (fp1) -- ($(fp1) + (-1,0.5)$) node[above, black]{$x_C$};
+\draw[thick, ,->] (fp1) -- ($(fp1) + (0,1)$) node[above, black]{$y_C$};
+\draw[thick,->] (fp1) -- ($(fp1) + (1, 0.6)$) node[above, black]{$z_C$};
+
+
+
+\coordinate (pd) at ($(pu) - (0.2,-0.2)$); 
+\draw[fill=black](pd) circle(1pt) node[left]{$P_d$};
+\draw[dotted] (pd) -- ($(pd) + (0,2.5)$);
+\draw[dotted] (pd) -- ($(pd) + (-3.8, 1.3)$);
+
+\draw [<-,blue, postaction={decorate, decoration={raise=1ex, text along path,text align=center,text color = blue, text={|\scriptsize|Step 4}}}] ($(io) + (0.1, -0.1)$) to [out=-30, in=120] ($(ic) +(-0.1,0.1)$);
+\end{tikzpicture}

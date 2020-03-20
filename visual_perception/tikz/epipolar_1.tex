@@ -1,0 +1,72 @@
+\begin{tikzpicture}
+
+	\coordinate (m) at (4,2);
+	
+	\coordinate (io1) at (0,0);
+	\coordinate (io2) at (5,-1);
+	
+	\coordinate (c1) at (0.5, -2.75);
+	\coordinate (c2) at (7.5, -2.75);
+	
+	\coordinate (e1) at (2.25,-2.75);
+	\coordinate (e2) at (5.75,-2.75);
+	
+	\coordinate (m1) at ($(c1) + (0.35,0.47)$);
+	\coordinate (m2) at ($(c2) + (-0.35,0.47)$);
+	
+	\coordinate (wo) at (1,1);
+	
+	% World coordinate system
+	\draw[gray, ->] (wo) node[below = 5pt, black]{$O_W$}-- ($(wo) + (0,0.7)$);
+	\draw[gray, ->] (wo) -- ($(wo) + (2/3,-1/3)$);
+	\draw[gray, ->] (wo) -- ($(wo) + (-2/3,-1/3)$);
+	
+	% Epipolar plane
+	\draw[black, pattern=north west lines, pattern color=NavyBlue, opacity = 0.25] (c1) -- (c2) -- (m) -- (c1);
+	\draw[black, densely dotted] (c1) -- (c2) -- (m) -- (c1);
+	\draw[fill=black] (m) circle(1pt) node[above right]{$M$};
+	\draw[NavyBlue] ($(m) - (0.5,0.5)$) node[above left]{$\Pi$};
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% First Camera
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\draw[gray, fill=white, opacity = 0.75] (io1) -- ($(io1) + (3,-1)$) --  ($(io1) + (3,-3)$) -- ($(io1) + (0,-2)$) -- (io1);
+	\coordinate (io1b) at ($(io1) + (0,-2)$);
+	\draw[gray] (io1b) -- ($(io1b) + (3,-1)$) --  ($(io1b) + (3,-2.5)$) -- ($(io1b) + (0,-1.5)$) -- (io1b);
+	
+	\draw[fill=black] (e1) circle(1pt) node[below right]{$e$};
+	\draw[fill=black] (m1) circle(1pt) node[above left]{$m$};
+	
+	\draw[fill=black] (c1) circle(1pt) node[below left]{$O_c$};
+	\draw[->] (c1) -- ($(c1) + (0,0.5)$);
+	\draw[->] (c1) -- ($(c1) + (-2/3,1/3)$);
+	\draw[->] (c1) -- ($(c1) + (2/3,1/3)$);
+	
+	% Coordinate system
+	\draw[thick, ->] (io1) node[above]{$O_I$}  node[below right = 5pt and 0pt]{$I$}  -- ($(io1) + (1, -1/3)$);
+	\draw[thick, ->] (io1) -- ($(io1) + (0 ,-2/3)$);
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% Second Camera
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\draw[gray, fill=white, opacity = 0.75] (io2) -- ($(io2) + (3,1)$) --  ($(io2) + (3,-1)$) -- ($(io2) + (0,-2)$) -- (io2);
+	\coordinate (io2b) at ($(io2) + (0,-2)$);
+	\draw[gray] (io2b) -- ($(io2b) + (3,1)$) --  ($(io2b) + (3,-0.5)$) -- ($(io2b) + (0,-1.5)$) -- (io2b);
+	
+	\draw[fill=black] (e2) circle(1pt) node[below left]{$e'$};
+	\draw[fill=black] (m2) circle(1pt) node[above right]{$m'$};
+	
+	\draw[fill=black] (c2) circle(1pt) node[below right]{$O_c'$};
+	\draw[->] (c2) -- ($(c2) + (0,0.5)$);
+	\draw[->] (c2) -- ($(c2) + (-2/3,-1/3)$);
+	\draw[->] (c2) -- ($(c2) + (-2/3,1/3)$);
+	
+	% Coordinate system
+	\draw[thick, ->] (io2) node[above]{$O_I'$}  node[below right]{$I'$} -- ($(io2) + (1, 1/3)$);
+	\draw[thick, ->] (io2) -- ($(io2) + (0 ,-2/3)$);
+	
+	\draw [->,blue, postaction={decorate, decoration={raise=1ex, text along path,text align=center,text color = blue, text={|\scriptsize| {$\prescript{C}{}{K_{C'}}$} }}}] ($(c1) + (0, -0.25)$) to [out=-30, in=210] ($(c2) + (0,-0.25)$);
+
+\end{tikzpicture}

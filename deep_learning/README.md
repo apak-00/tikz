@@ -22,10 +22,10 @@
 
 ## [Fast and Furious](http://openaccess.thecvf.com/content_cvpr_2018/papers/Luo_Fast_and_Furious_CVPR_2018_paper.pdf)
 
-### Early Fusiion
+### Early Fusion
 
 ![FaF-EF](tikz/faf_ef.png)
 
-### Late Fusiion
+### Late Fusion
 
 ![FaF-LF](tikz/faf_lf.png)

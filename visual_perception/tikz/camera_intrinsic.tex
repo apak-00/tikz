@@ -1,0 +1,46 @@
+\begin{tikzpicture}
+
+\coordinate (o) at (0,0);
+
+% Coordinate system
+\draw[thick,->] (o) node[below right, black]{$O_c$} -- ($(o) + (0,2)$) node[above, black]{$Y_c$};
+\draw[thick,->] (o) -- ($(o) + (-2,-1)$) node[left, black]{$X_c$};
+\draw[gray,->] (o) -- ($(o) + (-4,2)$) ;
+\draw[thick,->] (o) -- ($(o) + (-1,0.5)$) node[above, black]{$Z_c$};
+
+\coordinate (o1) at ($(o) + (1, 0.5)$);
+\coordinate (o2) at ($(o) + (2, 1)$);
+\coordinate (f) at ($(o1) + (-2,1)$);
+\coordinate (pzc) at ($(o2) + (-3,1.5)$);
+\coordinate(f1) at ($(f) + (-3,-1.5)$);
+\coordinate(pzc1) at ($(pzc) + (-5,-2.5)$);
+
+\coordinate(f2) at ($(f1) + (0,0.65)$);
+\coordinate(pzc2) at ($(pzc1) + (0,1)$);
+
+\coordinate(fz) at ($(f) + (-1,-0.5)$);
+\draw[fill=black] (fz) circle(1pt);
+\draw[<->] (fz) -- (f1);
+
+\coordinate(pzcz) at ($(pzc) + (-2,-1)$);
+\draw[fill=black] (pzcz) circle(1pt);
+\draw[<->] (pzc1) -- (pzcz);
+
+\draw[gray] (o) -- (o2);
+\draw[<->, gray] (o1) -- (f) node[pos=0.4, above, black]{$f$};
+\draw[<->, gray] (o2) -- (pzc) node[pos=0.4, above, black]{$P_{Z_c}$};
+
+\draw[densely dotted] (f) -- (f1) node[above, pos=0.4, sloped, black]{{\scriptsize{Image Plane}}} node[below, pos=0.4, sloped, black]{$X_u$};
+\draw[densely dotted] (pzc) -- (pzc1) node[below, pos=0.5, sloped, black]{$P_{X_c}$};;
+\draw[densely dotted] (o) -- (pzc1);
+
+\draw[gray] (o) -- (pzc2);
+
+\draw[densely dotted, <->] (pzc1) -- (pzc2) node[pos=0.5, right]{$P_{Y_c}$};
+\draw[densely dotted, <->] (f1) -- (f2) node[pos=0.5, left]{$Y_u$};
+
+\draw[fill=black] (f2) circle(1pt) node[above]{$\prescript{C}{}{P_u}$};
+\draw[fill=black] (pzc2) circle(1pt) node[above right]{$\prescript{C}{}{P_w}$};
+
+\draw[fill=black] (o) circle(1pt);
+\end{tikzpicture}

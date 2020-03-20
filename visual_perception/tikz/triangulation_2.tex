@@ -1,0 +1,103 @@
+\begin{tikzpicture}[scale=0.75, every node/.style={scale=0.75}]
+	
+	\coordinate (ic1) at (3,-3);
+	\coordinate (io1) at (0,0);
+	\coordinate (c1) at (-2,-6);
+	\coordinate (ow) at (6,-8);
+	
+	\coordinate (pw) at (5, 2);
+	\coordinate (pw1) at ($(pw) + (3,0)$);
+	\coordinate (pw2) at ($(pw) + (3,2)$);
+	\coordinate (pw3) at ($(pw) + (0,2)$);
+	
+	% World object
+	\draw[fill=black] (pw) circle(1pt) node[below]{$P_w$};
+	\draw[pattern=north west lines, pattern color=lightgray] (pw) -- (pw1) -- (pw2) -- (pw3) -- (pw);
+	
+	% World coordinate frame
+	\draw[thick,->] (ow) -- ($(ow) + (0.5,1)$) node[above, black]{$x_w$};
+	\draw[thick,->] (ow) -- ($(ow) + (-0.5,0.75)$) node[above, black]{$y_w$};
+	\draw[thick, ->] (ow) -- ($(ow) + (1,0.5)$) node[above, black]{$z_w$};
+	\draw(ow) node[below = 10pt]{\shortstack{{World coordinate} \\ {system}}};
+	\draw(ow) node[below] {$O_w$};
+	
+	% Image coordinate frame (center)
+	\draw[thick, ->] (ic1) node[right]{$O_R$} -- ($(ic1) + (0,2.5)$) node[above]{$Y_R$};
+	\draw[thick, ->] (ic1) -- ($(ic1) + (-3.6,1.2)$) node[left]{$X_R$};
+	\draw[dotted, lightgray] ($(io1) + (3,-1)$) -- ($(io1) + (3,-5)$);
+	\draw[dotted, lightgray] ($(io1) + (0,-2)$) -- ($(io1) + (6,-4)$);
+	
+	% Image coordinate system (top left corner)
+	\draw[gray] (io1) -- (6,-2) node[pos=0.75,above, sloped, black]{\small{Image Plane}} -- (6,-6) -- (0,-4) -- (io1);
+	\draw[thick, ->] (io1) node[above]{$O_I$} -- (2,-0.6666) node[above]{$X_I$};
+	\draw[thick, ->] (io1) -- (0,-1.5) node[left]{$Y_I$};
+	\draw[] (io1) node[below left]{\shortstack{Image \\ coordinate \\ {system}}};
+	
+	% Focal Point
+	\draw[thick, ->] (c1) -- ($(c1) + (-1,0.5)$) node[above, black]{$x_C$};
+	\draw[thick, ,->] (c1) -- ($(c1) + (0,1)$) node[above, black]{$y_C$};
+	\draw[thick,->] (c1) -- ($(c1) + (1, 0.6)$) node[above, black]{$z_C$};
+	\draw(c1) node[below = 10pt]{\shortstack{Camera \\ coordinate \\ {system}}} node[below]{$O_c$};
+	
+	% Projections
+	\draw[densely dashed, LimeGreen] (c1) -- (pw);
+	\draw[densely dashed, LimeGreen] (c1) -- (pw1);
+	\draw[densely dashed, LimeGreen] (c1) -- (pw2);
+	\draw[densely dashed, LimeGreen] (c1) -- (pw3);
+	
+	\coordinate (p11) at ($(c1) + (7*0.5, 8*0.5)$);
+	\coordinate (p12) at  ($(c1) + (7*0.5, 10*0.5)$);
+	\coordinate (p13) at ($(p12) + (3*0.38,-1*0.38) $);
+	\coordinate (p14) at ($(p11) + (3*0.38,-1*0.38) $);
+	
+	\draw[LimeGreen, pattern=north west lines, pattern color=LimeGreen, opacity = 0.5] (p11) circle(1pt) -- (p12) -- (p13) -- (p14) -- (p11);
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% Second camera
+	\coordinate (c2) at (15,-6);
+	\coordinate (io2) at (7,-2);
+	\coordinate (ic2) at (10,-3);
+	
+	\draw[gray] (io2) -- ($(io2) + (6,2)$) -- ($(io2) + (6,2) - (0,4)$) -- ($(io2) + (6,2) - (0,4) - (6,2)$) -- (io2);
+	
+	% Image coordinate frame (center)
+	\draw[thick, ->] (io2) node[above]{$O_I'$};
+	\draw[thick, ->] (ic2) node[right]{$O_{R'}$} -- ($(ic2) + (0,2.5)$) node[above]{$Y_{R'}$};
+	\draw[thick, ->] (ic2) -- ($(ic2) + (-3.6,-1.2)$) node[below]{$X_{R'}$};
+	\draw[dotted, lightgray] ($(io2) + (3,1)$) -- ($(io2) + (3,-3)$);	% Y-line
+	\draw[dotted, lightgray] ($(io2) + (0,-2)$) -- ($(io2) + (6,0)$);	% X-line
+	
+	% Focal Point
+	\draw[thick, ->] (c2) -- ($(c2) + (-1,0.5)$) node[above, black]{$z_{C'}$};
+	\draw[thick, ,->] (c2) -- ($(c2) + (0,1)$) node[above, black]{$y_{C'}$};
+	\draw[thick,->] (c2) -- ($(c2) - (1, 0.6)$) node[above, black]{$x_{C'}$};
+	\draw(c2) node[below = 10pt]{\shortstack{Camera' \\ coordinate \\ {system}}} node[below]{$O_{C'}$};
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% Projections
+	\draw[densely dashed, NavyBlue] (c2) -- (pw);
+	\draw[densely dashed, NavyBlue] (c2) -- (pw1);
+	\draw[densely dashed, NavyBlue] (c2) -- (pw2);
+	\draw[densely dashed, NavyBlue] (c2) -- (pw3);
+	
+	\coordinate (p21) at ($(c2) + (-7*0.5, 8*0.5)$);
+	\coordinate (p22) at  ($(c2) + (-7*0.5, 10*0.5)$);
+	\coordinate (p23) at ($(p22) + (-3*0.38,-1*0.38) $);
+	\coordinate (p24) at ($(p21) + (-3*0.38,-1*0.38) $);
+	
+	\draw[NavyBlue, pattern=north west lines, pattern color=NavyBlue, opacity = 0.5] (p21) circle(1pt) -- (p22) -- (p23) -- (p24) -- (p21);
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\draw[fill=black](p11) node[left]{$P_u$} circle(1pt);
+	\draw[fill=black](p24) node[right]{$P_u'$} circle(1pt);
+	
+	\draw[LimeGreen, thick, ->] ($(c1) + (7*0.7, 8*0.7)$) -- ($(c1) + (7*0.9, 8*0.9)$) node[black, pos=0.5, left]{$u$};
+	\draw[NavyBlue, thick, ->] ($(c2) + (-10*0.7, 8*0.7)$) -- ($(c2) + (-10*0.9, 8*0.9)$) node[black, pos=0.5, below]{$v$};
+	
+	\draw[](12,2) node[]{$\begin{aligned}
+		P_w & = P_u + m u \\
+		P_w & = {P}_{u}' + m'v
+		\end{aligned}$};
+	
+	\end{tikzpicture}

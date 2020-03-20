@@ -1,0 +1,69 @@
+\documentclass[usenames, dvipsnames ]{article}
+\usepackage{amsmath, amssymb, wasysym, pgfplots, tikz, graphicx, color, bbm, cmbright, mathtools}
+\usepackage[margin=0.45in]{geometry}
+
+\usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
+	decorations.pathreplacing,decorations.pathmorphing,shapes,%
+	matrix,shapes.symbols, positioning,fit,calc, angles, quotes, patterns,%
+	decorations.text}
+
+\usetikzlibrary{external}
+\tikzexternalize[]
+
+\newcommand{\includetikz}[1]{%
+	\tikzsetnextfilename{#1}%
+	\input{#1.tex}%
+}
+
+\begin{document}
+	
+	\clearpage
+	\section{Triangulation}
+	
+	\begin{figure*}[h!]
+		\centering
+		\includetikz{tikz/triangulation_1}
+		\caption{Triangulation principle}
+	\end{figure*}
+
+	\begin{figure*}[h!]
+		\centering
+		\includetikz{tikz/triangulation_2}
+		\caption{Triangulation Principle. Step 1 - System of Equations, Step 2 - Expand to $x,y,z$, Step 3: Get $m,m'$, Step 4: Compute $P_w$}
+	\end{figure*}
+	
+	\begin{figure}[h!]
+		\centering
+		\includetikz{tikz/triangulation_reconstruction}
+		\caption{$P_w$ - 3D object point, $\hat{P}_w$ - reconstructed point. That's why the previous system of equations won't work.}
+	\end{figure}
+	
+	\clearpage
+	\section{Epipolar Geometry}
+	
+	\begin{figure}[h!]
+		\centering
+		\includetikz{tikz/epipolar_1}
+		\caption{Epipolar Geometry: Focal points, epipoles and epipolar lines. All epipolar lines intersect at epipole.}
+	\end{figure}
+	
+	\begin{figure}[h!]
+		\centering
+		\includetikz{tikz/epipolar_2}
+		\caption{Epipolar Geometry - Modeling}
+	\end{figure}
+	
+	\begin{figure}[h!]
+		\centering
+		\includetikz{tikz/epipolar_3}
+		\caption{Epipolar Geometry - Modeling}
+	\end{figure}
+	
+
+
+
+\end{document}
+
+
+
+

@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+	\draw[gray, <-] (-2.5,0) node[above]{$X_c$} -- (2.5,0);
+	\draw[gray, ->] (0,-2.5) -- (0,2.5) node[right]{$Y_c$};
+	\draw(0,0) circle(2);
+	\draw[fill=black](0,0) -- (1.41,1.41) circle(1pt) node[left = 2pt]{$P_u$};
+	\draw[fill=black, <->](1.41,1.41) -- (1.8,1.8) 
+	node[above ]{$P_d$} circle(1pt);
+	
+	\draw[<->] (1.41,1.41) 
+	node[below right = 0pt and -7pt]{\shortstack{\scriptsize{Ideal}\\\scriptsize{Projection}}} -- (1.8,1.8) 
+	node[pos=0.5, above left = 0 pt and 0pt]{$dr$} 
+	node[above right = 0pt and 5 pt]{\shortstack{\scriptsize{Observed}\\\scriptsize{Projection}}};
+\end{tikzpicture}
