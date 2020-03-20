@@ -1,0 +1,79 @@
+\begin{tikzpicture}
+\node (input) [io] {\rot{Input}};
+
+\node[xshift = \blocksx, yshift = \blocksy, at=(input)] (conv11) [conv2d] {\rot{3x3 conv, 64}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv11)] (conv12) [conv2d] {\rot{3x3 conv, 64}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv12)] (maxpool1) [maxpool2d] {\rot{Maxpool}};
+
+\draw[arrow] (input) -- (conv11);
+\draw[arrow] (conv11) -- (conv12);
+\draw[arrow] (conv12) -- (maxpool1);
+
+\node[xshift = \dimsx, yshift = \dimsy, at=(input)] () [dim] {\rot{224x224x3}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv12)] () [dim] {\rot{224x224x64}};
+
+% ----------
+\node[xshift = \blocksx, yshift = \blocksy, at=(maxpool1)] (conv21) [conv2d] {\rot{3x3 conv, 128}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv21)] (conv22) [conv2d] {\rot{3x3 conv, 128}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv22)] (maxpool2) [maxpool2d] {\rot{Maxpool}};
+
+\draw[arrow] (maxpool1) -- (conv21);
+\draw[arrow] (conv21) -- (conv22);
+\draw[arrow] (conv22) -- (maxpool2);
+
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv22)] () [dim] {\rot{112x112x128}};
+
+% ----------
+\node[xshift = \blocksx, yshift = \blocksy, at=(maxpool2)] (conv31) [conv2d] {\rot{3x3 conv, 256}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv31)] (conv32) [conv2d] {\rot{3x3 conv, 256}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv32)] (conv33) [conv2d] {\rot{3x3 conv, 256}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv33)] (maxpool3) [maxpool2d] {\rot{Maxpool}};
+
+\draw[arrow] (maxpool2) -- (conv31);
+\draw[arrow] (conv31) -- (conv32);
+\draw[arrow] (conv32) -- (conv33);
+\draw[arrow] (conv33) -- (maxpool3);
+
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv33)] () [dim] {\rot{56x56x256}};
+
+% ----------
+\node[xshift = \blocksx, yshift = \blocksy, at=(maxpool3)] (conv41) [conv2d] {\rot{3x3 conv, 512}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv41)] (conv42) [conv2d] {\rot{3x3 conv, 512}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv42)] (conv43) [conv2d] {\rot{3x3 conv, 512}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv43)] (maxpool4) [maxpool2d] {\rot{Maxpool}};
+
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv43)] () [dim] {\rot{28x28x512}};
+
+\draw[arrow] (maxpool3) -- (conv41);
+\draw[arrow] (conv41) -- (conv42);
+\draw[arrow] (conv42) -- (conv43);
+\draw[arrow] (conv43) -- (maxpool4);
+
+% ----------
+\node[xshift = \blocksx, yshift = \blocksy, at=(maxpool4)] (conv51) [conv2d] {\rot{3x3 conv, 512}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv51)] (conv52) [conv2d] {\rot{3x3 conv, 512}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv52)] (conv53) [conv2d] {\rot{3x3 conv, 512}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv53)] (maxpool5) [maxpool2d] {\rot{Maxpool}};
+
+\draw[arrow] (maxpool4) -- (conv51);
+\draw[arrow] (conv51) -- (conv52);
+\draw[arrow] (conv52) -- (conv53);
+\draw[arrow] (conv53) -- (maxpool5);
+
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv53)] () [dim] {\rot{14x14x512}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(maxpool5)] () [dim] {\rot{7x7x512}};
+
+% ----------
+\node[xshift = \blocksx, yshift = \blocksy, at=(maxpool5)] (fc1) [fc] {\rot{fc 4096}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(fc1)] (fc2) [fc] {\rot{fc 4096}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(fc2)] (fc3) [fc] {\rot{fc 1000}};
+
+\draw[arrow] (maxpool5) -- (fc1);
+\draw[arrow] (fc1) -- (fc2);
+\draw[arrow] (fc2) -- (fc3);
+
+\node[xshift = \blocksx, yshift = \blocksy, at=(fc3)] (output) [io] {\rot{Output}};
+
+\draw[arrow] (fc3) -- (output);
+
+\end{tikzpicture}

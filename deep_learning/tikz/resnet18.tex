@@ -1,0 +1,91 @@
+\begin{tikzpicture}
+\node (input) [io] {\rot{Input}};
+
+\node[xshift = \dimsx, yshift = \dimsy, at=(input)] () [dim] {\rot{224x224x3}};
+
+\def\arrowshift{\layerheight/2+0.5em}
+
+% ---------- CONV1 ----------
+\node[xshift = \blocksx, yshift = \blocksy, at=(input)] (conv0) [conv2d] {\rot{7x7 conv, 64/2}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv0)] (maxpool0) [maxpool2d] {\rot{Maxpool}};
+
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv0)] () [dim] {\rot{112x112x64}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(maxpool0)] () [dim] {\rot{56x56x64}};
+
+\node[xshift = \blocksx, yshift = \blocksy, at=(maxpool0)] (conv11) [conv2d] {\rot{3x3 conv, 64}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv11)] (conv12) [conv2d] {\rot{3x3 conv, 64}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv12)] (conv13) [conv2d] {\rot{3x3 conv, 64}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv13)] (conv14) [conv2d] {\rot{3x3 conv, 64}};
+
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv14)] () [dim] {\rot{56x56x64}};
+
+\draw[arrow, rounded corners] ($(maxpool0.east) + (\blocksx/4.5, 0)$) -- node {} ++(0, \arrowshift) -| ($(conv12.east) + (\blocksx/4.5, 0)$);
+\draw[arrow, rounded corners] ($(conv12.east) + (\blocksx/4.5, 0)$) -- node {} ++(0, -\arrowshift-1em) -| ($(conv14.east) + (\blocksx/4.5, 0)$);
+
+\draw[arrow] (input) -- (conv0);
+\draw[arrow] (conv0) -- (maxpool0);
+\draw[arrow] (maxpool0) -- (conv11);
+\draw[arrow] (conv11) -- (conv12);
+\draw[arrow] (conv12) -- (conv13);
+\draw[arrow] (conv13) -- (conv14);
+
+% ---------- CONV2 ----------
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv14)] (conv21) [conv2d2] {\rot{3x3 conv, 128/2}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv21)] (conv22) [conv2d2] {\rot{3x3 conv, 128}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv22)] (conv23) [conv2d2] {\rot{3x3 conv, 128}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv23)] (conv24) [conv2d2] {\rot{3x3 conv, 128}};
+\draw[arrow, rounded corners, dashed] ($(conv14.east) + (\blocksx/4.5, 0)$) -- node {} ++(0, \arrowshift) -| ($(conv22.east) + (\blocksx/4.5, 0)$);
+\draw[arrow, rounded corners] ($(conv22.east) + (\blocksx/4.5, 0)$) -- node {} ++(0, -\arrowshift-1em) -| ($(conv24.east) + (\blocksx/4.5, 0)$);
+
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv24)] () [dim] {\rot{28x28x128}};
+
+\draw[arrow] (conv14) -- (conv21);
+\draw[arrow] (conv21) -- (conv22);
+\draw[arrow] (conv22) -- (conv23);
+\draw[arrow] (conv23) -- (conv24);
+
+% ---------- CONV3 ----------
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv24)] (conv31) [conv2d] {\rot{3x3 conv, 256/2}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv31)] (conv32) [conv2d] {\rot{3x3 conv, 256}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv32)] (conv33) [conv2d] {\rot{3x3 conv, 256}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv33)] (conv34) [conv2d] {\rot{3x3 conv, 256}};
+
+\draw[arrow, rounded corners, dashed] ($(conv24.east) + (\blocksx/4.5, 0)$) -- node {} ++(0, \arrowshift) -| ($(conv32.east) + (\blocksx/4.5, 0)$);
+\draw[arrow, rounded corners] ($(conv32.east) + (\blocksx/4.5, 0)$) -- node {} ++(0, -\arrowshift-1em) -| ($(conv34.east) + (\blocksx/4.5, 0)$);
+
+\draw[arrow] (conv24) -- (conv31);
+\draw[arrow] (conv31) -- (conv32);
+\draw[arrow] (conv32) -- (conv33);
+\draw[arrow] (conv33) -- (conv34);
+
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv34)] () [dim] {\rot{14x14x256}};
+
+% ---------- CONV4 ----------
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv34)] (conv41) [conv2d2] {\rot{3x3 conv, 512/2}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv41)] (conv42) [conv2d2] {\rot{3x3 conv, 512}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv42)] (conv43) [conv2d2] {\rot{3x3 conv, 512}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv43)] (conv44) [conv2d2] {\rot{3x3 conv, 512}};
+\draw[arrow, rounded corners, dashed] ($(conv34.east) + (\blocksx/4.5, 0)$) -- node {} ++(0, \arrowshift) -| ($(conv42.east) + (\blocksx/4.5, 0)$);
+\draw[arrow, rounded corners] ($(conv42.east) + (\blocksx/4.5, 0)$) -- node {} ++(0, -\arrowshift-1em) -| ($(conv44.east) + (\blocksx/4.5, 0)$);
+
+\draw[arrow] (conv34) -- (conv41);
+\draw[arrow] (conv41) -- (conv42);5
+\draw[arrow] (conv42) -- (conv43);
+\draw[arrow] (conv43) -- (conv44);
+
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv44)] () [dim] {\rot{7x7x512}};
+
+% ---------- AVGP ----------
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv44)] (avgpool) [maxpool2d] {\rot{7x7 avg. pool}};
+
+\node[xshift = \dimsx, yshift = \dimsy, at=(avgpool)] () [dim] {\rot{1x1x512}};
+
+\node[xshift = \blocksx, yshift = \blocksy, at=(avgpool)] (fc1) [fc] {\rot{fc 1000}};
+
+\node[xshift = \blocksx, yshift = \blocksy, at=(fc1)] (output) [io] {\rot{Output}};
+
+\draw[arrow] (conv44) -- (avgpool);
+\draw[arrow] (avgpool) -- (fc1);
+\draw[arrow] (fc1) -- (output);
+
+\end{tikzpicture}

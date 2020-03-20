@@ -1,0 +1,88 @@
+\begin{tikzpicture}
+
+\def\dx{3em}
+%\def\dxlf{5em}
+
+% ---------- EARLY FUSION ----------
+% ---------- FIRST 3D CONVOLUTION ----------
+\node[] (t0) [datat] {$t_0$};
+\node[yshift = -2em, at=(t0)] (t1) [datat] {$t_1$};
+\node[yshift = -2em, at=(t1)] (t2) [datat] {$t_2$};
+\node[yshift = -2em, at=(t2)] (t3) [datat] {$t_3$};
+\node[yshift = -2em, at=(t3)] (t4) [datat] {$t_4$};
+
+\node[xshift = \dx, at=(t2)] (conv3d0) [conv2d2] {\rot{conv3d1}};
+
+\node[xshift = \dx, at=(conv3d0)] (t5) [datat] {};
+
+\draw[arrow] (t0.east) -- ($(conv3d0.west) + (0, +4em)$);
+\draw[arrow] (t1.east) -- ($(conv3d0.west) + (0, 2em)$);
+\draw[arrow] (t2.east) -- ($(conv3d0.west)$);
+\draw[arrow] (t3.east) -- ($(conv3d0.west) + (0, -2em)$);
+\draw[arrow] (t4.east) -- ($(conv3d0.west) + (0, -4em)$);
+
+\draw[arrow] (conv3d0.east) -- ($(t5.west)$);
+
+\node[xshift = \dimsx, yshift = \dimsy, at=(t2)] () [dim] {\rot{5x29x400x720}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv3d0)] () [dim] {\rot{1x29x400x720}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(t5)] () [dim] {\rot{29x400x720}};
+
+% ---------- VGG ----------
+\node[xshift = \dx, at=(t5)] (conv2d11) [conv2d, fill=red!20] {\rot{conv2d1\_1, 3x3 32}};
+\node[xshift = \dx, at=(conv2d11)] (conv2d12) [conv2d, fill=red!20] {\rot{conv2d1\_2, 3x3 32}};
+\node[xshift = \dx, at=(conv2d12)] (maxpool1) [maxpool2d] {\rot{Maxpool}};
+
+\draw[arrow] (t5.east) -- (conv2d11.west);
+\draw[arrow] (conv2d11.east) --(conv2d12.west);
+\draw[arrow] (conv2d12.east) -- (maxpool1.west);
+
+\node[xshift = \dx, at=(maxpool1)] (conv2d21) [conv2d, fill=red!20] {\rot{conv2d2\_1, 3x3 64}};
+\node[xshift = \dx, at=(conv2d21)] (conv2d22) [conv2d, fill=red!20] {\rot{conv2d2\_2, 3x3 64}};
+\node[xshift = \dx, at=(conv2d22)] (maxpool2) [maxpool2d] {\rot{Maxpool}};
+
+\draw[arrow] ($(maxpool1.east)$) -- ($(conv2d21.west)$);
+\draw[arrow] ($(conv2d21.east)$) -- ($(conv2d22.west)$);
+\draw[arrow] ($(conv2d22.east)$) -- ($(maxpool2.west)$);
+
+% Dimensions
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv2d12)] () [dim] {\rot{32x400x720}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(maxpool1)] () [dim] {\rot{32x200x360}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv2d22)] () [dim] {\rot{64x200x360}};
+
+\node[xshift = 3.3*\blocksx, yshift = \blocksy, at=(maxpool2)] (conv31) [conv2d] {\rot{3x3 conv, 128}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv31)] (conv32) [conv2d] {\rot{3x3 conv, 128}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv32)] (conv33) [conv2d] {\rot{3x3 conv, 128}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv33)] (maxpool3) [maxpool2d] {\rot{Maxpool}};
+
+% Dimensions
+\node[xshift = \dimsx, yshift = \dimsy, at=(maxpool2)] () [dim] {\rot{64x100x180}};
+
+\draw[arrow] (maxpool2) -- (conv31);
+\draw[arrow] (conv31) -- (conv32);
+\draw[arrow] (conv32) -- (conv33);
+\draw[arrow] (conv33) -- (maxpool3);
+
+\node[xshift = \blocksx, yshift = \blocksy, at=(maxpool3)] (conv41) [conv2d] {\rot{3x3 conv, 256}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv41)] (conv42) [conv2d] {\rot{3x3 conv, 256}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv42)] (conv43) [conv2d] {\rot{3x3 conv, 256}};
+
+\draw[arrow] (maxpool3) -- (conv41);
+\draw[arrow] (conv41) -- (conv42);
+\draw[arrow] (conv42) -- (conv43);
+
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv33)] () [dim] {\rot{128x100x180}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(maxpool3)] () [dim] {\rot{128x50x90}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv43)] () [dim] {\rot{256x50x90}};
+
+% ---------- HEADERS ----------
+
+\node[xshift = 8em, yshift = 2em, at=(conv43)] (cls) [conv2d, minimum height = 1em, minimum width = 8em] {cls 3x3 conv, 60};
+\node[xshift = 8em, yshift = -2em, at=(conv43)] (loc) [conv2d, minimum height = 1em, minimum width = 8em] {loc 3x3 conv, 240};
+
+\node[xshift = 8em, yshift = 0em, at=(conv43)] (clsdim) [dim, minimum height = 1em] {60x50x90};
+\node[xshift = 8em, yshift = -4em, at=(conv43)] (locdim) [dim, minimum height = 1em] {240x50x90};
+
+\draw[arrow, rounded corners] (conv43.east) -| node {} ++(1em, 2em) -- (cls.west);
+\draw[arrow, rounded corners] (conv43.east) -| node {} ++(1em, -2em) -- (loc.west);
+
+\end{tikzpicture}

@@ -1,0 +1,38 @@
+\usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
+	decorations.pathreplacing,decorations.pathmorphing,shapes,%
+	matrix,shapes.symbols, positioning,fit,calc, angles, quotes, patterns,%
+	decorations.text}
+
+\def\blocksx{2.5em}
+\def\blocksy{0em}
+
+\def\dimsx{0em}
+\def\dimsy{-9em}
+
+\def\layerheight{10em}
+\def\layerwidth{1em}  
+
+\tikzstyle{layer} = [draw=none, text centered, minimum height=\layerheight,  minimum width = \layerwidth, rounded corners]
+\tikzstyle{layer-h} = [draw=none, text centered, minimum height=\layerwidth,  minimum width = 6em, rounded corners]
+\tikzstyle{io} = [layer, draw=gray!20]		% Input/Output
+
+\tikzstyle{conv2d} = [layer, draw=red!50, fill=red!20]		% Conv2d 1
+\tikzstyle{conv2d2} = [layer, draw=orange!50, fill=orange!20]		% Conv2d 2
+
+\tikzstyle{maxpool2d} = [layer, draw=yellow!50, fill=yellow!20]		% Maxpool
+
+% Inception
+\tikzstyle{conv2di} = [layer, draw=red!50, fill=red!20]
+\tikzstyle{maxpool2di} = [layer, draw=yellow!50, fill=yellow!20]
+\tikzstyle{imodule} = [layer, draw=teal!50, fill=teal!20]
+\tikzstyle{lrni} = [layer, draw=olive!50, fill=olive!20]
+
+\tikzstyle{fc} = [layer, draw=green!50, fill=green!20] 		% MLP
+\tikzstyle{datat} = [layer, draw=blue!50, fill=blue!20, minimum height=1em]
+
+\tikzstyle{dim} = [layer, fill=gray!10,  minimum height=6em]
+\tikzstyle{empty} = [layer]
+
+\newcommand{\rot}[1]{\rotatebox{90}{#1}}
+
+\tikzstyle{arrow} = [thick,->,>=stealth, line width=1.5pt]

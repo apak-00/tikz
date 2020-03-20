@@ -1,0 +1,188 @@
+\begin{tikzpicture}
+\node (input) [io] {\rot{Input}};
+
+\node[xshift = \blocksx, yshift = \blocksy, at=(input)] (conv1) [conv2di] {\rot{conv 7x7/2 64}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv1)] (maxpool1) [maxpool2di] {\rot{maxpool 3x3/2 64}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(maxpool1)] (lrni1) [lrni] {\rot{local resp. norm}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(lrni1)] (conv2) [conv2di] {\rot{conv 1x1 (?)}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv2)] (conv3) [conv2di] {\rot{conv 3x3/1 192}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv3)] (lrni2) [lrni] {\rot{local resp. norm}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(lrni2)] (maxpool2) [maxpool2di] {\rot{maxpool 3x3/2}};
+
+\draw[arrow] (input) -- (conv1);
+\draw[arrow] (conv1) -- (maxpool1);
+\draw[arrow] (maxpool1) -- (lrni1);
+\draw[arrow] (lrni1) -- (conv2);
+\draw[arrow] (conv2) -- (conv3);
+\draw[arrow] (conv3) -- (lrni2);
+\draw[arrow] (lrni2) -- (maxpool2);
+
+% Dimensions
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv1)] () [dim] {\rot{112x112x64}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(maxpool1)] () [dim] {\rot{56x56x64}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(conv3)] () [dim] {\rot{56x56x192}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(maxpool2)] () [dim] {\rot{28x28x192}};
+
+% Inception modules 1-4
+\node[xshift = \blocksx, yshift = \blocksy, at=(maxpool2)] (im1) [imodule] {\rot{Inception (3a)}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(im1)] (im2) [imodule] {\rot{Inception (3b)}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(im2)] (maxpool3) [maxpool2di] {\rot{maxpool 3x3/2}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(maxpool3)] (im3) [imodule] {\rot{Inception (4a)}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(im3)] (im4) [imodule] {\rot{Inception (4b)}};
+
+\draw[arrow] (lrni2) -- (maxpool2);
+\draw[arrow] (maxpool2) -- (im1);
+\draw[arrow] (im1) -- (im2);
+\draw[arrow] (im2) -- (maxpool3);
+\draw[arrow] (maxpool3) -- (im3);
+\draw[arrow] (im3) -- (im4);
+
+% Dimensions
+\node[xshift = \dimsx, yshift = \dimsy, at=(im1)] () [dim] {\rot{28x28x256}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(im2)] () [dim] {\rot{28x28x480}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(maxpool3)] () [dim] {\rot{14x14x480}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(im3)] () [dim] {\rot{14x14x512}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(im4)] () [dim] {\rot{14x14x512}};
+
+% Softmax 0
+\node[xshift = 7*\blocksx, yshift = -\layerheight-3em, at=(im4)] (avgpool0) [maxpool2di] {\rot{5x5 avg. pool + 3(V) }};
+\node[xshift = \blocksx, yshift = \blocksy, at=(avgpool0)] (conv0) [conv2di] {\rot{1x1 conv + 1(S)}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv0)] (fc01) [fc] {\rot{fc}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(fc01)] (fc02) [fc] {\rot{fc}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(fc02)] (softmax0) [conv2di, fill=orange!20, draw=orange!50] {\rot{softmax0}};
+
+\draw[arrow, rounded corners] (im4.east) -| node {} ++(\blocksx/1.5, - \layerheight-3em) -- (avgpool0.west);
+\draw[arrow] (avgpool0) -- (conv0);
+\draw[arrow] (conv0) -- (fc01);
+\draw[arrow] (fc01) -- (fc02);
+\draw[arrow] (fc02) -- (softmax0);
+
+% Inception modules 5-7
+\node[xshift = \blocksx*2, yshift = \blocksy, at=(im4)] (im5) [imodule] {\rot{Inception (4c)}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(im5)] (im6) [imodule] {\rot{Inception (4d)}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(im6)] (im7) [imodule] {\rot{Inception (4e)}};
+\node[xshift = 2*\blocksx, yshift = \blocksy, at=(im7)] (maxpool4) [maxpool2di] {\rot{maxpool 3x3/2}};
+
+\node[xshift = \dimsx, yshift = \dimsy, at=(im5)] () [dim] {\rot{14x14x512}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(im6)] () [dim] {\rot{14x14x528}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(im7)] () [dim] {\rot{14x14x832}};
+\node[xshift = \dimsx, yshift = \dimsy, at=(maxpool4)] () [dim] {\rot{7x7x832}};
+
+\draw[arrow] (im4) -- (im5);
+\draw[arrow] (im5) -- (im6);
+\draw[arrow] (im6) -- (im7);
+\draw[arrow] (im7) -- (maxpool4);
+
+% Softmax 1
+\node[xshift = 3*\blocksx, yshift = \layerheight+4em, at=(im7)] (avgpool1) [maxpool2di] {\rot{5x5 avg. pool + 3(V) }};
+\node[xshift = \blocksx, yshift = \blocksy, at=(avgpool1)] (conv11) [conv2di] {\rot{1x1 conv + 1(S)}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(conv11)] (fc11) [fc] {\rot{fc}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(fc11)] (fc12) [fc] {\rot{fc}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(fc12)] (softmax1) [conv2di, fill=orange!20, draw=orange!50] {\rot{softmax1}};
+
+\draw[arrow, rounded corners] (im7.east) -| node {} ++(\blocksx/1.5,  \layerheight+4em) -- (avgpool1.west);
+\draw[arrow] (avgpool1) -- (conv11);
+\draw[arrow] (conv11) -- (fc11);
+\draw[arrow] (fc11) -- (fc12);
+\draw[arrow] (fc12) -- (softmax1);
+
+% Inception modules 8-9
+\node[xshift = \blocksx, yshift = \blocksy, at=(maxpool4)] (im8) [imodule] {\rot{Inception (5a)}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(im8)] (im9) [imodule] {\rot{Inception (5b)}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(im9)] (avgpool2) [maxpool2di] {\rot{avg. pool 7x7/1}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(avgpool2)] (fc2) [fc] {\rot{fc}};
+\node[xshift = \blocksx, yshift = \blocksy, at=(fc2)] (softmax2) [conv2di, fill=orange!20, draw=orange!50] {\rot{softmax2}};
+
+\draw[arrow] (maxpool4) -- (im8);
+\draw[arrow] (im8) -- (im9);
+\draw[arrow] (im9) -- (avgpool2);
+\draw[arrow] (avgpool2) -- (fc2);
+\draw[arrow] (fc2) -- (softmax2);
+
+% Module
+\def\dx1{3.5em}
+\def\dy1{3.5em}
+\def\dxm{6em}
+\def\dym{12em}
+	
+\node[yshift=\dym, xshift = \dxm, at=(input)]  (dummy) [] {};
+
+% Border
+\node[yshift = 1.5*\dy1, at=(dummy)] (border) [draw=teal!50, fill=teal!20, minimum width=28em, minimum height = 13em, rounded corners, dashed] {};
+\node[yshift = -\dy1*0.75, xshift=-2*\dx1, at=(dummy)] (name) [] {Inception Module (v1)};
+
+% Input
+\node[yshift=\dym, xshift = \dxm] (input-module) [layer-h, draw=gray!40, fill=gray!20] {Previous layer};
+
+% ----- First inception module layer -----
+\node[xshift = -\dx1, yshift = \dy1, at=(input-module)] (conv2d11) [layer-h, fill=red!20, draw=red!50] {conv 1x1/1};
+\node[xshift = \dx1, yshift = \dy1, at=(input-module)] (conv2d12) [layer-h, fill=red!20, draw=red!50] {conv 1x1/1};
+\node[xshift = 3*\dx1, yshift = \dy1, at=(input-module)] (conv2d13) [layer-h, fill=yellow!20, draw=yellow!50] {max p. 3x3/1};
+
+\draw[arrow, rounded corners] (input-module.north) |- node {} ++(-\dx1, 0.25*\dy1) -- (conv2d11.south);
+\draw[arrow, rounded corners] (input-module.north) |- node {} ++(\dx1, 0.25*\dy1) -- (conv2d12.south);
+\draw[arrow, rounded corners] (input-module.north) |- node {} ++(3*\dx1, 0.25*\dy1) -- (conv2d13.south);
+
+% ----- Intermediate -----
+\node[xshift = -3*\dx1, yshift = 2*\dy1, at=(input-module)] (conv2d) [layer-h, fill=red!20, draw=red!50] {conv 1x1/1};
+
+\draw[arrow, rounded corners] (input-module.north) |- node {} ++(-3*\dx1, 0.25*\dy1) -- (conv2d.south);
+
+% ----- Second inception module layer -----
+\node[xshift = -\dx1, yshift = 2*\dy1, at=(input-module)] (conv2d21) [layer-h, fill=red!20, draw=red!50] {conv 3x3/1};
+\node[xshift = \dx1, yshift = 2*\dy1, at=(input-module)] (conv2d22) [layer-h, fill=red!20, draw=red!50] {conv 5x5/1};
+\node[xshift = 3*\dx1, yshift = 2*\dy1, at=(input-module)] (conv2d23) [layer-h, fill=red!20, draw=red!50] {conv 1x1/1};
+
+\draw[arrow] (conv2d11.north) -- (conv2d21.south);
+\draw[arrow] (conv2d12.north) -- (conv2d22.south);
+\draw[arrow] (conv2d13.north) -- (conv2d23.south);
+
+% ----- Concatenation -----
+\node[xshift = 0, yshift = 3*\dy1, at=(input-module)] (concat) [layer-h, draw=gray!40, fill=gray!20] {Concatenation};
+
+\draw[arrow, rounded corners] (conv2d.north) |- node {} ++(3*\dx1, 0.25*\dy1) -- (concat.south);
+\draw[arrow, rounded corners] (conv2d21.north) |- node {} ++(\dx1, 0.25*\dy1) -- (concat.south);
+\draw[arrow, rounded corners] (conv2d21.north) |- node {} ++(\dx1, 0.25*\dy1) -- (concat.south);
+\draw[arrow, rounded corners] (conv2d22.north) |- node {} ++(-\dx1, 0.25*\dy1) -- (concat.south);
+\draw[arrow, rounded corners] (conv2d23.north) |- node {} ++(-3*\dx1, 0.25*\dy1) -- (concat.south);
+
+% Table
+\node[xshift = 25em, at=(border)]  (table) [draw=teal!40, fill=teal!20, rounded corners, dashed, minimum height = 13em] {
+	\begin{tabular}{r|llllll}
+		\rowcolor{teal!40}
+		& 1x1 & 3x3 & 3x3 & 5x5 & 5x5 & pool \\ \hline
+		\rowcolor{teal!20}
+		3a & 64 & 96 & 128 & 16 & 32 & 32 \\
+		\rowcolor{teal!40}
+		3b & 128 & 128 & 192 & 32 & 96 & 64 \\
+		\rowcolor{teal!20}
+		4a & 192 & 96 & 208 & 16 & 48 & 64 \\
+		\rowcolor{teal!40}
+		4b & 160 & 112 & 224 & 24 & 64 & 64 \\
+		\rowcolor{teal!20}
+		4c & 128 & 128 & 256 & 24 & 64 & 64 \\
+		\rowcolor{teal!40}
+		4d & 112 & 144 & 288 & 32 & 64 & 64 \\
+		\rowcolor{teal!20}
+		4e & 256 & 160 & 320 & 32 & 128 & 128 \\
+		\rowcolor{teal!40}
+		5a & 256 & 160 & 320 & 32 & 128 & 128 \\
+		\rowcolor{teal!20}
+		5b & 384 & 192 & 384 & 48 & 128 & 128
+	\end{tabular}
+};
+
+% Arrows
+\def\tempy{3em};
+
+\draw[-, thick, rounded corners, teal!50, dashed]  ($(border.south)$) -- node {} ++(0, -\tempy) -| (im1.north);
+\draw[-, thick, rounded corners, teal!50, dashed]  ($(border.south)$) -- node {} ++(0,-\tempy) -| (im2.north);
+\draw[-, thick, rounded corners, teal!50, dashed]  ($(border.south)$) -- node {} ++(0,-\tempy) -| (im3.north);
+\draw[-, thick, rounded corners, teal!50, dashed]  ($(border.south)$) -- node {} ++(0,-\tempy) -| (im4.north);
+\draw[-, thick, rounded corners, teal!50, dashed]  ($(border.south)$) -- node {} ++(0,-\tempy) -| (im5.north);
+\draw[-, thick, rounded corners, teal!50, dashed]  ($(border.south)$) -- node {} ++(0,-\tempy) -| (im6.north);
+\draw[-, thick, rounded corners, teal!50, dashed]  ($(border.south)$) -- node {} ++(0,-\tempy) -| (im7.north);
+\draw[-, thick, rounded corners, teal!50, dashed]  ($(border.south)$) -- node {} ++(0,-\tempy) -| (im8.north);
+\draw[-, thick, rounded corners, teal!50, dashed]  ($(border.south)$) -- node {} ++(0,-\tempy) -| (im9.north);
+
+\end{tikzpicture}

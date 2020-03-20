@@ -1,0 +1,41 @@
+
+\begin{tikzpicture}
+
+\def\dx{6em}
+\def\dy{4em}
+
+\node[] (input) [layer-h, draw=gray!20] {Previous layer};
+
+% ----- First inception layer -----
+\node[xshift = -\dx, yshift = \dy, at=(input)] (conv2d11) [layer-h, fill=yellow!20, draw=yellow!50] {1x1 conv};
+\node[xshift = \dx, yshift = \dy, at=(input)] (conv2d12) [layer-h, fill=yellow!20, draw=yellow!50] {1x1 conv};
+\node[xshift = 3*\dx, yshift = \dy, at=(input)] (conv2d13) [layer-h, fill=red!20, draw=red!50] {1x1 conv};
+
+\draw[arrow, rounded corners] (input.north) |- node {} ++(-\dx, 0.25*\dy) -- (conv2d11.south);
+\draw[arrow, rounded corners] (input.north) |- node {} ++(\dx, 0.25*\dy) -- (conv2d12.south);
+\draw[arrow, rounded corners] (input.north) |- node {} ++(3*\dx, 0.25*\dy) -- (conv2d13.south);
+
+% ----- Intermediate -----
+\node[xshift = -3*\dx, yshift = 1.5*\dy, at=(input)] (conv2d) [layer-h, fill=blue!20, draw=blue!50] {1x1 conv};
+
+\draw[arrow, rounded corners] (input.north) |- node {} ++(-3*\dx, 0.25*\dy) -- (conv2d.south);
+
+% ----- Second inception layer -----
+\node[xshift = -\dx, yshift = 2*\dy, at=(input)] (conv2d21) [layer-h, fill=blue!20, draw=blue!50] {3x3 conv};
+\node[xshift = \dx, yshift = 2*\dy, at=(input)] (conv2d22) [layer-h, fill=blue!20, draw=blue!50] {3x3 conv};
+\node[xshift = 3*\dx, yshift = 2*\dy, at=(input)] (conv2d23) [layer-h, fill=yellow!20, draw=yellow!50] {1x1 conv};
+
+\draw[arrow] (conv2d11.north) -- (conv2d21.south);
+\draw[arrow] (conv2d12.north) -- (conv2d22.south);
+\draw[arrow] (conv2d13.north) -- (conv2d23.south);
+
+% ----- Concatenation -----
+\node[xshift = 0, yshift = 3*\dy, at=(input)] (concat) [layer-h, draw=gray!50] {concatenation};
+
+\draw[arrow, rounded corners] (conv2d.north) |- node {} ++(3*\dx, 0.75*\dy) -- (concat.south);
+\draw[arrow, rounded corners] (conv2d21.north) |- node {} ++(\dx, 0.25*\dy) -- (concat.south);
+\draw[arrow, rounded corners] (conv2d21.north) |- node {} ++(\dx, 0.25*\dy) -- (concat.south);
+\draw[arrow, rounded corners] (conv2d22.north) |- node {} ++(-\dx, 0.25*\dy) -- (concat.south);
+\draw[arrow, rounded corners] (conv2d23.north) |- node {} ++(-3*\dx, 0.25*\dy) -- (concat.south);
+
+\end{tikzpicture}

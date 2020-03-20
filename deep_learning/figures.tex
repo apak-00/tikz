@@ -1,0 +1,48 @@
+\documentclass[]{article}
+\usepackage{amsmath, amssymb, wasysym, tikz, graphicx, cancel, color, colortbl, cmbright, tabularx}
+
+\usepackage[margin=0.45in, landscape]{geometry}
+
+\input{tikz_styles.tex}
+
+\usetikzlibrary{external}
+\tikzexternalize[]
+
+\newcommand{\includetikz}[1]{%
+	\tikzsetnextfilename{#1}%
+	\input{#1.tex}%
+}
+
+\begin{document}
+
+
+\title{\textsc{Diagrams}}
+
+\maketitle
+
+\section{VGG16}
+\includetikz{tikz/vgg16}
+
+\clearpage
+\section{VGG16 vs. VGG19}
+\includetikz{tikz/vgg16vs19}
+
+\clearpage
+\section{ResNet-18}
+\includetikz{tikz/resnet18}
+
+\section{AlexNet}
+\includetikz{tikz/alexnet}
+\clearpage
+
+\section{Fast and Furious}
+\includetikz{tikz/faf_lf}
+
+\includetikz{tikz/faf_ef}
+
+\clearpage
+\section{Inception v1}
+%\input{tikz/inception_module.tex}
+\includetikz{tikz/inception_v1}
+
+\end{document}
