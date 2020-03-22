@@ -1,0 +1,51 @@
+\begin{tikzpicture}
+
+\tikzset{
+	%Define standard arrow tip
+	>=stealth',
+	%Define style for boxes
+	punkt/.style={
+		rectangle,
+		rounded corners,
+		draw=black, very thick,
+		text width=6.5em,
+		minimum height=2em,
+		text centered},
+	% Define arrow style
+	pil/.style={
+		thick,
+		shorten <=2pt,
+		shorten >=2pt,},
+	punktnob/.style={
+		text width=6.5em,
+		minimum height=2em}
+}
+
+%nodes
+\def \sep {0.5cm};
+\def \rsep {1.6}
+
+\node[punkt] (horizon) {Local (Topocentric Horizon)};
+
+\node[below=\sep of horizon] (dummy1) {};
+
+\node[punktnob, right = \rsep of dummy1] (tf1) {\small{latitude, longitude, height, azimuth, elevation, range}};
+
+\draw[decorate, decoration={brace, mirror}] let \p1=(tf1.north), \p2=(tf1.south) in
+($(\rsep+0.2, \y1)$) -- ($(\rsep+0.2, \y2)$) ;
+
+\node[punkt, inner sep=5pt,below=\sep of dummy1] (earth) {Earth-Fixed (ECEF) } edge[pil, <->] (horizon.south);
+
+\node[below=\sep of earth] (dummy2) {};
+
+\node[punktnob, right = \rsep of dummy2] (tf2) {\small{JDN, epoch}};
+
+\draw[decorate, decoration={brace, mirror}] let \p1=(tf2.north), \p2=(tf2.south) in
+($(\rsep+0.2, \y1)$) -- ($(\rsep+0.2, \y2)$) ;    
+
+\node[punkt, inner sep=5pt,below=\sep of dummy2] (space) {Space-Fixed (ECI)} edge[pil, <->] (earth.south);
+
+\draw [thick] (0,-1.3) -- (1.7,-1.3);
+\draw [thick] (0,-3.63) -- (1.7,-3.63);
+
+\end{tikzpicture}
