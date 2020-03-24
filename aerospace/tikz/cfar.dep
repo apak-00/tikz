@@ -1,0 +1,2 @@
+tikz/cfar.pdf: data/noise.txt
+tikz/cfar.pdf: data/noise.txt

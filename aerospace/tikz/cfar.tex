@@ -1,0 +1,59 @@
+\begin{tikzpicture}
+
+	\begin{axis}[
+	xticklabels={,,},	
+	yticklabels={,,},
+	xmin = 0, 
+	xmax = 100,
+	axis lines=left,
+	x post scale = 1.5,
+	y post scale = 0.28,
+	legend style = {draw=none},
+	ticks = none]
+	
+	\addplot[
+	clip marker paths=true, %
+	blue] %
+	table [x=num, y=signal] {data/noise.txt};
+	
+	\addplot[
+	clip marker paths=true, %
+	red, dashdotted, thick] %
+	table [x=num, y=noise] {data/noise.txt};	
+	
+	\legend{Signal, Threshold}
+	
+	\end{axis}
+	
+	% Line
+	\draw[thick, gray](4.2,-0.2) -- (4.2,2) node[right]{\small{Detection }}; 
+	
+	\foreach \x in {0,0.5,...,4}
+	\draw (\x + 1.95,-0.2) rectangle (\x + 1.95 + 0.5,-0.7);
+	
+	\draw[fill = darkgray]  (2 + 1.95,-0.2) rectangle (2 + 1.95 + 0.5,-0.7) node[below] at (2 + 2.25, -0.7) {\tiny{CUT}};
+	
+	% Inner window rectangle
+	\draw[fill = lightgray] (1.5 + 1.95,-0.2) rectangle (1.5 + 1.95 + 0.5,-0.7);
+	
+	% Inner window rectangle
+	\draw[fill =  lightgray] (2.5 + 1.95,-0.2) rectangle (2.5 + 1.95 + 0.5,-0.7);
+	
+	% Inner window
+	\draw [thick, decorate,decoration={brace,amplitude=5pt,mirror},xshift=0.2pt,yshift=-0.2pt](1.95 + 1.5,-1) -- (6.45 - 1.5,-1) node[black,midway,yshift=-0.4cm] {\small{Inner window}};
+	
+	% Outer window
+	\draw [thick, decorate,decoration={brace,amplitude=5pt,mirror},xshift=0.4pt,yshift=-0.4pt](1.95,-1.6) -- (6.45,-1.6) node[black,midway,yshift=-0.4cm] {\small{Outer window}};
+	
+	% Line border large brace
+	\draw[dashed, gray](1.95,0.8) -- (1.95,-1.6); 
+	\draw[dashed, gray](6.45,0.8) -- (6.45,-1.6); 
+	
+	% Line border small brace
+	\draw[dashed, gray](3.45,0.8) -- (3.45,-1); 
+	\draw[dashed, gray](4.95,0.8) -- (4.95,-1); 
+	
+	% Threshold line
+	\draw[dashed, gray](1.95, 0.85) -- (6.45,0.85) node[above]{\small{Local Threshold}}; 
+
+\end{tikzpicture}

@@ -1,0 +1,37 @@
+\begin{tikzpicture}
+	
+	\coordinate (origin) at (0,0);
+	\coordinate (satellite) at (-1,3);
+	\coordinate (satelliteprojection) at (-1,-2);
+	\coordinate (observer) at (1,1);
+	\coordinate (observerprojection) at (1,-0.5);
+	\coordinate (x) at (-3,-2);
+	\coordinate (z) at (0,4);
+	
+	\draw[->] (origin) -- ($(origin) + (4,0)$) node[right] {$y$};
+	\draw[->] (origin) --  (z) node[above] {$z$}; 
+	\draw[->] (origin) --  (x) node[above] {$x$};
+	
+	%Satellite
+	\draw (origin) -- (satellite) node[above]{$P(x,y,z)$};
+	\draw[fill = black] (satellite) circle(1pt);
+	\draw[dashed] (satellite) -- (satelliteprojection); 
+	\draw[fill=black] (satelliteprojection) circle(1pt);
+	\draw[dashed] (satelliteprojection) -- (origin);
+	
+	\pic[draw, ->, "\small{$\theta_0$}", angle eccentricity =1.5] {angle = x--origin--satelliteprojection};
+	
+	\draw[dashed] (origin) -- (observerprojection); 
+	\draw[] (0,1.5) -- (observer) node[right]{$O$} node[pos = 0.5, below] {$r_s$}; 
+	\draw[dashed] (observer) -- (observerprojection) node[pos = 0.5, right] {$z_0$};
+	\draw[fill=black] (observer) circle (1pt);
+	\draw[fill = black] (observerprojection) circle (1pt);
+	
+	\pic[draw, ->, "\small{$\theta$}", angle eccentricity = 1.5] {angle = x--origin--observerprojection};
+	
+	\draw (satellite) -- (observer) node[pos=0.7, above]{$\rho$};
+	\draw (origin) -- (satellite) node[pos = 0.5, left]{$r$};
+	
+	\pic[draw, ->, "\small{$\frac{\pi}{2} - \delta$}", angle eccentricity = 1.5] {angle = z--origin--satellite};
+	
+	\end{tikzpicture}

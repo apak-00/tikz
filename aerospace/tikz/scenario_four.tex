@@ -1,0 +1,100 @@
+		\begin{tikzpicture}
+	
+	\tikzset{
+		partial ellipse/.style args={#1:#2:#3}{
+			insert path={+ (#1:#3) arc (#1:#2:#3)}
+		}
+	}
+	
+	\coordinate (o) at (0,0);
+	\coordinate (odot) at (-0.5,-1);
+	\coordinate (khat) at (0,3);
+	\coordinate (jhat) at (3,0);
+	\coordinate (ihat) at (-2,-2);
+	
+	\coordinate (eci) at (-7, -3);
+	\coordinate (sat) at (-6, 2);
+	
+	% Unit sphere
+	\draw[color=gray, rotate=-135, postaction={decorate, decoration={text along path, raise=2pt, text align={align=center}, text color=gray, text={|\scriptsize|Unit sphere}, reverse path}}] (0,0) circle (60pt);
+	\draw[fill=black] (o) circle (1pt) node[above right = 3pt and 3pt, font=\small]{Observer};
+	\draw[->] ($(o)!.1!(odot)$) -- ($(o)!.9!(odot)$) node[pos=0.6, right]{$\dot{\vec{o}}$};
+	
+	% Coordinates
+	\draw[gray, ->] ($(o)!.04!(khat)$) -- ($(o)!.96!(khat)$) node[above]{$\hat{k}$};
+	\draw[gray, ->] ($(o)!.04!(jhat)$) -- ($(o)!.96!(jhat)$) node[right]{$\hat{j}$};
+	\draw[gray, ->] ($(o)!.04!(ihat)$) -- ($(o)!.96!(ihat)$) node[below]{$\hat{i}$};
+	
+	%RA Line
+	\coordinate (P1) at ($(0, 0) + (90:1 and 2.1)$);
+	\draw[dotted] ($(P1)$(P1) arc (90:270:1.55 and 2.1);
+	%Dec Line
+	\coordinate (P2) at ($(0, 0) + (180:2.1 and 1)$);
+	\draw[dotted] ($(P2)$(P2) arc (180:360:2.1 and 1);
+	%RA
+	%\coordinate (P3) at ($(0, -0.05) + (245:2.1 and 1)$);
+	%\draw[thick, olive] ($(P3)$(P3) arc (245:293.5:2.1 and 1) node[pos=0.5, below]{$\alpha$};
+	% Dec
+	%\coordinate (P4) at ($(0,0) + (-23.5:1 and 2.1)$);
+	%\draw[thick, olive] ($(P4)$(P4) arc (-23.5:18:1 and 2.1) node[pos=0.5, right]{$\delta$};
+	
+	%\coordinate (P5) at ($(0, 0) + (295:2.1 and 1)$);
+	%\draw[fill=black] (P5) circle (1pt);
+	%\draw[] ($(o)!.1!(P5)$) -- ($(o)!.9!(P5)$);
+	
+	%\coordinate (P6) at ($(0,0) + (20:1 and 2.1)$);
+	%\draw[fill=black] (P6) circle (1pt);
+	%\draw[->] ($(o)!.1!(P6)$) -- ($(o)!.9!(P6)$) node[pos=0.5, above]{$\hat{l}$};
+	
+	%\coordinate (jhatp) at (2.7, 1.4);
+	%\draw[dashed, ->] ($(o)!.04!(jhatp)$) -- ($(o)!.96!(jhatp)$) node[above]{$\hat{j}'$};
+	
+	%\coordinate (P7) at ($(0, 0) + (0:2.5 and 2.5)$);
+	%\draw[thick, ->] ($(P7)$(P7) arc (0:27:2.5 and 2.5) node[pos=0.5, right]{$\alpha$};
+	
+	\begin{scope}[shift={(eci)}]
+	
+	\coordinate (oo) at (0,0);
+	\coordinate (khat1) at (0,1);
+	\coordinate (jhat1) at (1,0);
+	\coordinate (ihat1) at (-0.5,-0.5);
+	
+	\draw[gray, ->] ($(oo)!.1!(khat1)$) -- ($(oo)!.9!(khat1)$) node[above]{$\hat{k}$};
+	\draw[gray, ->] ($(oo)!.1!(jhat1)$) -- ($(oo)!.9!(jhat1)$) node[right]{$\hat{j}$};
+	\draw[gray, ->] ($(oo)!.1!(ihat1)$) -- ($(oo)!.9!(ihat1)$) node[below]{$\hat{i}$};
+	
+	\draw[fill=black] (oo) circle (1pt) node[below right = 0pt and -5pt, font=\small]{$O_{ECI}$};
+	
+	\end{scope}
+	
+	\begin{scope}[shift={(sat)}]
+	
+	\coordinate (osat) at (0,0);
+	\coordinate (vsat) at (-1, -0.5);
+	
+	\draw[fill=black] (osat) circle (1pt) node[above right = 1pt and 1pt, font=\small]{Satellite};
+	\draw[->] ($(osat)!.1!(vsat)$) -- ($(osat)!.9!(vsat)$) node[above left, pos = 0.5]{$\dot{\vec{r}}$};
+	
+	\end{scope}
+	
+	% Main vectors
+	\draw[->] ($(eci)!.02!(sat)$) -- ($(eci)!.98!(sat)$) node[pos=0.6, left]{$\vec{r}$};
+	\draw[->] ($(eci)!.02!(o)$) -- ($(eci)!.98!(o)$) node[pos=0.6, below]{$\vec{o}$};
+	\draw[->] ($(o)!.02!(sat)$) -- ($(o)!.98!(sat)$) node[pos=0.6, above]{$\vec{l}$};
+	
+	% lhat
+	\draw[->] ($(o)!.02!(sat)$) -- ($(o)!.15!(sat)$) node[pos=0.6, above]{$\hat{l}$};
+	
+	% Cone
+	\draw[rotate around={-20:(0,0)}, red, dashed] (sat) ellipse (0.5 and 1);
+	\draw[red, dashed] (0,0) -- ($(sat) + (0.42, 0.9)$) node [midway, above, sloped] {\scriptsize{Antenna FoV}};
+	\draw[red, dashed] (0,0) -- ($(sat) - (0.4, 0.92)$);
+	
+	\coordinate (satproj) at (-1.5, 0.5);
+	\draw[fill=black] (satproj) circle (1pt);
+	\draw[rotate around={-20:(0,0)}, red, dashed] (satproj) ellipse (0.125 and 0.25);
+	
+	
+	
+	
+	\end{tikzpicture}
