@@ -1,53 +1,42 @@
 \documentclass[]{article}
 \usepackage{amsmath, amssymb, wasysym, tikz, graphicx, cancel, color, colortbl, cmbright, tabularx}
-
-\input{tikz_styles.tex}
-
-\usetikzlibrary{external}
-
-\usetikzlibrary{arrows,automata,backgrounds,petri, positioning, intersections, calc}
-
 \usepackage[margin=0.45in, landscape]{geometry}
 
-\usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
-\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
-\definecolor{mylilas}{RGB}{170,55,241}
+\usetikzlibrary{external}
+\tikzexternalize[]
 
-\tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
-\tikzstyle{selected vertex} = [vertex, fill=red!24]
-\tikzstyle{edge} = [draw,thick,->]
-\tikzstyle{weight} = [font=\small]
-\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
-\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+\input{tikz_styles.tex}
 
 \tikzstyle{place}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=10mm]
 \tikzstyle{red place}=[place,draw=red!75,fill=red!20, ,minimum size=13mm]
 \tikzstyle{yellow place}=[place,draw=yellow!75,fill=yellow!20, minimum size=10mm]
 \tikzstyle{green place}=[place,draw=green!75,fill=green!20, minimum size=10mm]
 \tikzstyle{white place}=[place,draw=white!100,fill=white!100, minimum size=14mm]
-\tikzstyle{transition}=[rectangle,thick,draw=black!75,
-fill=black!20,minimum size=4mm]
-\tikzstyle{every label}=[red]
 
-\tikzset{
-	connect/.style args={(#1) to (#2) over (#3) by #4}{
-		insert path={
-			let \p1=($(#1)-(#3)$), \n1={veclen(\x1,\y1)}, 
-			\n2={atan2(\y1,\x1)}, \n3={abs(#4)}, \n4={#4>0 ?180:-180}  in 
-			(#1) -- ($(#1)!\n1-\n3!(#3)$) 
-			arc (\n2:\n2+\n4:\n3) -- (#2)
-		}
-	},
-}
+\pgfdeclarelayer{bg}    % declare background layer
+\pgfsetlayers{bg,main}  % set the order of the layers (main is the standard layer)
+
 
 \newcommand{\includetikz}[1]{%
-	\tikzsetn\textit{ext}filename{#1}%
+	\tikzsetnextfilename{#1}%
 	\input{#1.tex}%
 }
 
 \begin{document}
 
-\includetikz{tikz/computation_graph_one}
+\begin{figure}
+	\includetikz{tikz/computation_graph_1}
+	%\input{tikz/computation.tex}
+\end{figure}
 
+\begin{figure}
+	\includetikz{tikz/computation_graph_2}
+	%\input{tikz/computation.tex}
+\end{figure}
+
+\begin{figure}
+	\includetikz{tikz/computation_graph_3}
+	%\input{tikz/computation.tex}
+\end{figure}
 
 \end{document}

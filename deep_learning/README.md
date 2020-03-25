@@ -29,3 +29,26 @@
 ### Late Fusion
 
 ![FaF-LF](tikz/faf_lf.png)
+
+# Computation Graph Example
+<img src="img/graph_1.png" alt="" width="600"/>
+<br></br>
+<img src="tikz/computation_graph_1.png" alt="" width="800"/>
+<br></br>
+<img src="img/numeric_gradient_1.png" alt="" width="750"/>
+<br></br>
+<img src="tikz/computation_graph_2.png" alt="" width="800"/>
+<br></br>
+<img src="tikz/computation_graph_3.png" alt="" width="800"/>
+
+## Forward Mode Automatic Differentiation
+
+<img src="img/gradient_11.png" alt="" width="700"/>
+<img src="img/gradient_12.png" alt="" width="480"/>
+<img src="img/gradient_13.png" alt="" width="640"/>
+
+## Reverse Mode Automatic Differentiation
+
+<img src="img/gradient_21.png" alt="" width="570"/>
+<img src="img/gradient_22.png" alt="" width="700"/> 
+<img src="img/gradient_23.png" alt="" width="700"/>
